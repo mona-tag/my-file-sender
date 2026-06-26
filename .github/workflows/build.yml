@@ -11,11 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build APK with Buildozer
-        uses: subzero-io/buildozer-action@v2
+      - name: Build with Buildozer
+        uses: kivy/buildozer-action@master
         with:
-          workdir: .
-          buildozer_version: stable
+          save_cache: true
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
