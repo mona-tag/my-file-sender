@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get history and tags for bugreport
         run: git fetch --prune --unshallow
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -24,17 +24,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev xclip
           sudo apt-get install -y python3-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
-          # 安装打包核心工具
           pip install --upgrade pip
           pip install cython==0.29.33 buildozer aidu
 
       - name: Build APK with Buildozer
         run: |
-          # 首次运行自动接受 SDK 协议并编译
           yes | buildozer android debug
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: FileSender-Android-APK
           path: bin/*.apk
