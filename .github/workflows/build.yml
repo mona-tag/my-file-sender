@@ -6,30 +6,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get history and tags for bugreport
-        run: git fetch --prune --unshallow
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev xclip
-          sudo apt-get install -y python3-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
-          pip install --upgrade pip
-          pip install cython==0.29.33 buildozer aidu
-
       - name: Build APK with Buildozer
-        run: |
-          yes | buildozer android debug
+        uses: subzero-io/buildozer-action@v2
+        with:
+          workdir: .
+          buildozer_version: stable
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
